@@ -16,42 +16,47 @@ const AddRoom = () => {
     const handleRoomInputChange = (e) => {
         const name = e.target.name;
         let value = e.target.value;
+
         if (name === "roomPrice") {
+            // Ensure that value is a valid number before updating the state
             if (!isNaN(value)) {
-                value.parseInt(value)
-            }
-            else {
-                value = ""
+                value = parseInt(value, 10);
+            } else {
+                value = ""; // Set to an empty string if the input is not a number
             }
         }
-        setNewRoom({ ...newRoom, [name]: value })
-    }
+
+        setNewRoom({ ...newRoom, [name]: value });
+    };
 
     const handleImageChange = (e) => {
         const selectedImage = e.target.files[0];
-        setNewRoom({ ...newRoom, photo: selectedImage });
+
+        setNewRoom((prevRoom) => ({
+            ...prevRoom,
+            photo: selectedImage,
+        }));
+
         setImagePreview(URL.createObjectURL(selectedImage));
-    }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const success = await addRoom(newRoom.photo,
-                newRoom.roomType,
-                newRoom.roomPrice);
-            
-            if(success !== undefined){
+            const success = await addRoom(newRoom);
+
+            if (success !== undefined) {
                 setSuccessMessage("A new room was added to the database");
-                setNewRoom({photo: null, roomType: "", roomPrice : ""});
+                setNewRoom({ photo: null, roomType: "", roomPrice: "" });
                 setImagePreview("");
                 setErrorMessage("");
-            }else{
+            } else {
                 setErrorMessage("Error adding room");
             }
         } catch (error) {
             setErrorMessage(error.message);
         }
-    }
+    };
 
     return (
       <>

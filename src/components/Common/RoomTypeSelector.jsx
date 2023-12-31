@@ -7,15 +7,21 @@ const RoomTypeSelector = ({handleRoomInputChange, newRoom}) => {
     const[newRoomType, setNewRoomType] = useState("");
 
     useEffect(() => {
-        getRoomTypes().then((data) => {
-            setRoomTypes(data);
-        })
-    }, []);
+        const fetchRoomTypes = async () => {
+            try {
+                const data = await getRoomTypes();
+                setRoomTypes(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchRoomTypes();
+    }, []); 
 
     const handleNewRoomTypeInputChange = (e) => {
         setNewRoomType(e.target.value);
     }
-
     const handleAddNewRoomType = () => {
         if(newRoomType !== ""){
             setRoomTypes([...roomTypes, newRoomType]);
