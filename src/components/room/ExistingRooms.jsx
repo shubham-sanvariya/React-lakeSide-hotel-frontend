@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { deleteRoom, getAllRooms } from '../utils/ApiFunctions';
 import RoomPaginator from '../Common/RoomPaginator';
 import RoomFilter from '../Common/RoomFilter';
-import { Col } from 'react-bootstrap';
-import { FaEdit, FaEye, FaTrashAlt } from 'react-icons/fa'
+import { Col, Row } from 'react-bootstrap';
+import { FaEdit, FaEye, FaPlus, FaTrashAlt } from 'react-icons/fa'
 import { Link } from 'react-router-dom';
 const ExistingRooms = () => {
     const [rooms, setRooms] = useState([]);
@@ -86,12 +86,21 @@ const ExistingRooms = () => {
             ) : (
                 <>
                     <section className='mt-5 mb-5 container'>
-                        <div className='d-flex justify-content-center'>
+                        <div className='d-flex justify-content-between mb-3 mt-5'>
                             <h2>Exisiting Rooms</h2>
                         </div>
-                        <Col md={6} className='mb-3 mb-md-0'>
+
+                        <Row>
+                        <Col md={6} className='mb-2 mb-md-0'>
                             <RoomFilter data={rooms} setFilteredRooms={setFilteredRooms} />
                         </Col>
+
+                        <Col md={6} className='d-flex justify-content-end'>
+                            <Link to={"/add-room"}>
+                                <FaPlus /> Add Room
+                            </Link>
+                        </Col>
+                        </Row>
 
                         <table className='table table-bordered table'>
                             <thead>
