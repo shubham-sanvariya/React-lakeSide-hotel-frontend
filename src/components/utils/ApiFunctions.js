@@ -87,6 +87,7 @@ export async function getRoomById(roomId){
     }
 }
 
+// this function saves new booking to the database
 export async function bookRoom(roomId, booking){
     try {
         const response = await api.post(`/bookings/room/${roomId}/booking`, booking);
@@ -100,6 +101,7 @@ export async function bookRoom(roomId, booking){
     }
 }
 
+// this function gets all bookings from the database
 export async function getAllBookings(){
     try {
         const result = await api.get('/bookings/all-bookings');
@@ -109,10 +111,11 @@ export async function getAllBookings(){
     }
 }
 
+// this function get booking by the confirmation code
 export async function getBookingByConfirmationCode(confirmationCode){
     try {
         const result = await api.
-        get(`/bookings//confirmation/${confirmationCode}`)
+        get(`/bookings/confirmation/${confirmationCode}`)
         return result.data
     } catch (error) {
         if(error.response && error.response.data){
@@ -120,5 +123,15 @@ export async function getBookingByConfirmationCode(confirmationCode){
         }else{
             throw new Error(`Error find booking : ${error.message}`);
         }
+    }
+}
+
+// this function cancel booking
+export async function cancelBooking(bookingId){
+    try {
+        const result = await api.delete(`/bookings/booking/${bookingId}/delete`)
+        return result.data;
+    } catch (error) {
+        throw new Error(`Error cancelling booking : ${error.message}`);
     }
 }
