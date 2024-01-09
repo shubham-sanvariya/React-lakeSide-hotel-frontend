@@ -5,6 +5,7 @@ import moment from 'moment';
 const FindBooking = () => {
     const[confirmationCode, setConfirmationCode] = useState("");
     const [errors, setError] = useState(null);
+    const[successMessage, setSuccessMessage] = useState("");
     const[isLoading, setIsLoading] = useState(false);
     const[isDeleted, setIsDeleted] = useState(false);
     const[bookingInfo, setBookingInfo] = useState({
@@ -64,12 +65,17 @@ const FindBooking = () => {
         try {
             await cancelBooking(bookingId);
             setIsDeleted(true);
+            setSuccessMessage("Booking has been cancelled successfully");
             setBookingInfo(clearBookingInfo);
             setConfirmationCode("");
             setError("");
         } catch (error) {
             setError(error.message);
         }
+        setTimeout(() => {
+            setSuccessMessage("");
+            setIsDeleted(false);
+        }, 2000);
     }
 
     return (
@@ -135,7 +141,7 @@ const FindBooking = () => {
                      className='alert alert-success mt-3'
                      role='alert'
                      >
-                        Booking has been cancelled successfully
+                        {successMessage}
                     </div>
                 )}
             </div>
