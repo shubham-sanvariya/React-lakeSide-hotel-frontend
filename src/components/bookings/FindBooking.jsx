@@ -10,7 +10,7 @@ const FindBooking = () => {
     const[isDeleted, setIsDeleted] = useState(false);
     const[bookingInfo, setBookingInfo] = useState({
         bookingId: "",
-        room : {id: ""},
+        room: { id: "", roomType: "" },
         bookingConfirmationCode : "",
         roomNumber : "",
         checkInDate : "",
@@ -24,7 +24,7 @@ const FindBooking = () => {
 
     const clearBookingInfo = {
         bookingId: "",
-        room : {id: ""},
+        room : {id: "", roomType: ""},
         bookingConfirmationCode : "",
         roomNumber : "",
         checkInDate : "",
@@ -45,7 +45,6 @@ const FindBooking = () => {
         setIsLoading(true);
         try {
             const data = await getBookingByConfirmationCode(confirmationCode);
-            console.log(data)
             setBookingInfo(data);
             setError(null);
         } catch (error) {
@@ -111,12 +110,12 @@ const FindBooking = () => {
                         <p>Room Number: {bookingInfo.room.id}</p>
                         <p>Room Type: {bookingInfo.room.roomType}</p>
                         <p>
-                            Check-in Date:{" "}
-                            {moment(bookingInfo.checkInDate).subtract(1, "month").format("MMM Do, YYYY")}
+                            Check-in Date: {bookingInfo.checkInDate[0] + '-' + bookingInfo.checkInDate[1] + '-' + bookingInfo.checkInDate[2]}
+                            {/* {moment(bookingInfo.checkInDate).subtract(1, "month").format("MMM Do, YYYY")} */}
                         </p>
                         <p>
-                            Check-out Date:{" "}
-                            {moment(bookingInfo.checkInDate).subtract(1, "month").format("MMM Do, YYYY")}
+                            Check-out Date: {bookingInfo.checkOutDate[0] + '-' + bookingInfo.checkOutDate[1] + '-' + bookingInfo.checkOutDate[2]}
+                            {/* {moment(bookingInfo.checkInDate).subtract(1, "month").format("MMM Do, YYYY")} */}
                         </p>
                         <p>Full Name: {bookingInfo.guestFullName}</p>
                         <p>Email Address: {bookingInfo.guestEmail}</p>
