@@ -145,3 +145,16 @@ export async function getAvailableRooms(checkInDate, checkOutDate, roomType) {
 	)
 	return result
 }
+
+export async function registeration(registeration){
+    try {
+        const response = await api.post("/auth/register-user", registeration);
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.message) {
+            throw new Error(error.response.data);
+        }else{
+            throw new Error(`User registration error : ${error.message}`);
+        }
+    }
+}
