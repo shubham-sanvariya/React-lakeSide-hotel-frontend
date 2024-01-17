@@ -158,3 +158,17 @@ export async function registeration(registeration){
         }
     }
 }
+
+export async function loginUser(login){
+    try {
+        const response = await api.post("/auth/login", login);
+        if (response.status >= 200 & response.status < 300) {
+            return response.data;
+        }else{
+            return null;
+        }
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
