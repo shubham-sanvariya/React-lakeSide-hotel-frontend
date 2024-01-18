@@ -202,3 +202,14 @@ export async function deleteUser(userId){
         return error.message;
     }
 }
+
+export async function getUser(userId, token){
+    try {
+        const response = await api.get(`/users/${userId}`,{
+            headers : getHeader()
+        });
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
