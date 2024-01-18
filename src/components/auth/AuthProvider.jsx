@@ -19,6 +19,13 @@ const AuthProvider = () => {
         setUser(decodedToken);
     }
 
+    const handleLogout = () => {
+        localStorage.removeItem("userId");
+        localStorage.removeItem("userRole");
+        localStorage.removeItem("token");
+        setUser(null);
+    }
+
     return (
         <div>
             
