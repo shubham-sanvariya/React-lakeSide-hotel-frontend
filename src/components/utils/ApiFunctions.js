@@ -191,3 +191,14 @@ export async function getUserProfile(userId, token){
         throw error;
     }
 }
+
+export async function deleteUser(userId){
+    try {
+        const response = await api.delete(`/users/delete/${userId}`,{
+            headers : getHeader()
+        });
+        return response.data;
+    } catch (error) {
+        return error.message;
+    }
+}
