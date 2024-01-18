@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
+import Logout from '../auth/Logout'
 
 const NavBar = () => {
     const [showAccount, setShowAccount] = useState(false)
