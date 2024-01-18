@@ -26,7 +26,6 @@ const Login = () => {
             const token = success.token;
             handleLogin(token);
             navigate("/");
-            window.location.reload();
         }else{
             setErrorMessage("Invalid username or password. Please try again.");
         }
@@ -39,7 +38,7 @@ const Login = () => {
         <section className='container col-6 mt-5 mb-5'>
             {errorMessage && <p className='alert alert-danger'>{errorMessage}</p>}
             <h2>Login</h2>
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleSubmit}>
                 <div className='row mb-3'>
                     <label htmlFor='email' className='col-sm-2 col-form-label'>
                          Email
@@ -79,8 +78,10 @@ const Login = () => {
                      >
                         Login
                     </button>
-                    <span style={{marginLeft : "10px"}}>
-                        Don't have an account yet?<Link to={"/register"}></Link>
+                    <span style={{marginLeft : "10px" }}>
+                        Don't have an account yet?<Link to={"/register"}>
+                            Register
+                        </Link>
                     </span>
                 </div>
             </form>
