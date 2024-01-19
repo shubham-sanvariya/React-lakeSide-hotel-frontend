@@ -88,7 +88,7 @@ const BookingForm = () => {
             setIsSubmitted(true)
             navigate("/booking-success", { state: { message: confirmationCode } })
         } catch (error) {
-            const errorMessage = error.message
+            const errorMessage = error.response.data.message
             console.log(errorMessage)
             navigate("/booking-success", { state: { error: errorMessage } })
         }
