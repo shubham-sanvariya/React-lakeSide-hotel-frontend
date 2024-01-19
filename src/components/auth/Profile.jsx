@@ -14,7 +14,7 @@ const Profile = () => {
 
     const [bookings, setBookings] = useState([
         {
-            id: "",
+            bookingId: "",
             room: { id: "", roomType: "" },
             checkInDate: "",
             checkOutDate: "",
@@ -45,6 +45,7 @@ const Profile = () => {
         const fetchBookings = async () => {
             try {
                 const response = await getBookingsByUserId(userId, token)
+                console.log(response)
                 setBookings(response)
             } catch (error) {
                 console.error("Error fetching bookings:", error.message)
@@ -166,17 +167,11 @@ const Profile = () => {
                                     <tbody>
                                         {bookings.map((booking, index) => (
                                             <tr key={index}>
-                                                <td>{booking.id}</td>
+                                                <td>{booking.bookingId}</td>
                                                 <td>{booking.room.id}</td>
                                                 <td>{booking.room.roomType}</td>
-                                                <td>
-                                                    {moment(booking.checkInDate).subtract(1, "month").format("MMM Do, YYYY")}
-                                                </td>
-                                                <td>
-                                                    {moment(booking.checkOutDate)
-                                                        .subtract(1, "month")
-                                                        .format("MMM Do, YYYY")}
-                                                </td>
+                                                <td>{booking.checkInDate[0] + '-' + booking.checkInDate[1] + '-' + booking.checkInDate[2]}</td>
+                                                <td>{booking.checkOutDate[0] + '-' + booking.checkOutDate[1] + '-' + booking.checkOutDate[2]}</td>
                                                 <td>{booking.bookingConfirmationCode}</td>
                                                 <td className="text-success">On-going</td>
                                             </tr>
