@@ -12,14 +12,19 @@ const AuthProvider = ({children}) => {
     const[user, setUser] = useState(null);
 
     useEffect(() => {
-        console.log(user)
-    }, [user]);
+        const cu = {
+            "userId" : localStorage.getItem("userId"),
+            "userRole" : localStorage.getItem("userRole")
+        }
+        setUser(cu);
+    }, []);
 
     const handleLogin = (token) => {
         const decodedToken = jwtDecode(token);
         localStorage.setItem("userId",decodedToken.sub);
         localStorage.setItem("userRole",decodedToken.roles);
         localStorage.setItem("token",token);
+        console.log(decodedToken)
         setUser(decodedToken);
     }
 

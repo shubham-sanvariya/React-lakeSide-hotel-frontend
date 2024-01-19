@@ -5,10 +5,8 @@ export const api = axios.create({
     baseURL : "http://localhost:9192"
 })
 
-const token = localStorage.getItem("token");
-
-
 export const getHeader = () => {
+    const token = localStorage.getItem("token");
     return{
         Authorization : `Bearer ${token}`,
         "content-Type" : "application/json"
@@ -28,7 +26,7 @@ export async function addRoom(newRoom) {
     try {
         const response = await api.post("/rooms/add/new-room", formData, {
             headers: {
-                Authorization : `Bearer ${token}`,
+                Authorization : `Bearer ${localStorage.getItem("token")}`,
                 "Content-Type": "multipart/form-data",
             },
         });
@@ -108,8 +106,9 @@ export async function bookRoom(roomId, booking){
         const response = await api.post(`/bookings/room/${roomId}/booking`, booking);
         return response.data;
     } catch (error) {
+        console.log(error)
         if(error.response && error.response.data){
-            throw new Error(error.response.data);
+            throw error;
         }else{
             throw new Error(`Error booking room : ${error.message}`);
         }
