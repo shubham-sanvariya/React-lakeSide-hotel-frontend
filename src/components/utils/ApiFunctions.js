@@ -5,8 +5,10 @@ export const api = axios.create({
     baseURL : "http://localhost:9192"
 })
 
+const token = localStorage.getItem("token");
+
+
 export const getHeader = () => {
-    const token = localStorage.getItem("token");
     return{
         Authorization : `Bearer ${token}`,
         "content-Type" : "application/json"
@@ -26,6 +28,7 @@ export async function addRoom(newRoom) {
     try {
         const response = await api.post("/rooms/add/new-room", formData, {
             headers: {
+                Authorization : `Bearer ${token}`,
                 "Content-Type": "multipart/form-data",
             },
         });
@@ -67,7 +70,9 @@ export async function getAllRooms(){
 // This function deletes a room by the Id
 export async function deleteRoom(roomId){
     try {
-        const result = await api.delete(`/rooms/delete/room/${roomId}`);
+        const result = await api.delete(`/rooms/delete/room/${roomId}`, {
+            headers: getHeader()
+        });
         return result.data;
     } catch (error) {
         throw new Error('Error deleting room');
@@ -81,7 +86,9 @@ export async function updateRoom(roomId, roomData){
     formData.append("roomPrice", roomData.roomPrice);
     formData.append("photo", roomData.photo);
 
-    const response = await api.put(`/rooms/update/${roomId}`,formData);
+    const response = await api.put(`/rooms/update/${roomId}`, formData, {
+        headers: getHeader()
+    });
     return response;
 }
 
@@ -112,7 +119,9 @@ export async function bookRoom(roomId, booking){
 // this function gets all bookings from the database
 export async function getAllBookings(){
     try {
-        const result = await api.get('/bookings/all-bookings');
+        const result = await api.get("/bookings/all-bookings", {
+			headers: getHeader()
+		});
         return result.data;
     } catch (error) {
         throw new Error(`Error fetching bookings : ${error.message}`);
@@ -211,5 +220,18 @@ export async function getUser(userId, token){
         return response.data;
     } catch (error) {
         throw error;
+    }
+}
+
+/* This is the function to get user bookings by the user id */
+export async function getBookingsByUserId(userId, token) {
+    try {
+        const response = await api.get(`/bookings/user/${userId}/bookings`, {
+            headers: getHeader()
+        })
+        return response.data
+    } catch (error) {
+        console.error("Error fetching bookings:", error.message)
+        throw new Error("Failed to fetch bookings")
     }
 }
